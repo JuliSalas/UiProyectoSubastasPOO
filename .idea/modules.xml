@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/UIProyectoSubastaPoo.iml" filepath="$PROJECT_DIR$/UIProyectoSubastaPoo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ProyectoSubastaLogicaJSD/ProyectoSubastaLogicaJSD.iml" filepath="$PROJECT_DIR$/../ProyectoSubastaLogicaJSD/ProyectoSubastaLogicaJSD.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/UIProyectoSubastaPOO.iml" filepath="$PROJECT_DIR$/src/UIProyectoSubastaPOO.iml" />
     </modules>
   </component>
 </project>
