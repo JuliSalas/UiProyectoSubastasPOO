@@ -24,14 +24,22 @@ public class Main {
 
     /**
      * Método principal del programa.
+     * Inicia la ejecución del sistema.
+     *
+     * @param args argumentos enviados al programa.
+     * @throws IOException si ocurre un error de lectura.
      */
+
     public static void main(String[] args) throws IOException {
         verificarModeradorInicial();
         ejecutarSistema();
     }
 
     /**
-     * Verifica si existe al menos un moderador registrado al iniciar el sistema.
+     * Verifica al iniciar el sistema si existe un moderador registrado.
+     * En caso contrario, solicita los datos para registrarlo.
+     *
+     * @throws IOException si ocurre un error de lectura.
      */
     private static void verificarModeradorInicial() throws IOException {
         if (!sistema.existeModerador()) {
@@ -48,7 +56,9 @@ public class Main {
     }
 
     /**
-     * Ejecuta el menú principal.
+     * Ejecuta el menú principal del sistema hasta que el usuario decida salir.
+     *
+     * @throws IOException si ocurre un error de lectura.
      */
     private static void ejecutarSistema() throws IOException {
         int opcion;
@@ -89,13 +99,22 @@ public class Main {
                     validarModerador();
                     break;
                 case 11:
-                    System.out.println("Saliendo del sistema...");
+                    modificarUsuario();
+                    break;
+                case 12:
+                    cerrarSubasta();
+                    break;
+                case 13:
+                    listarMisSubastas();
+                    break;
+                case 14:
+                    System.out.println("Saliendo del sistema");
                     break;
                 default:
                     System.out.println("Opcion invalida.");
             }
 
-        } while (opcion != 11);
+        } while (opcion != 14);
     }
 
     /**
@@ -113,11 +132,16 @@ public class Main {
         System.out.println("8. Listar ofertas");
         System.out.println("9. Inicio de sesion");
         System.out.println("10. Validar existencia de moderador");
-        System.out.println("11. Salir");
+        System.out.println("11. Modificar Usuario");
+        System.out.println("12. Cerrar subasta");
+        System.out.println("13. Mis subastas");
+        System.out.println("14. Salir");
     }
 
     /**
-     * Registra un nuevo usuario.
+     * Solicita los datos necesarios para registrar un usuario.
+     *
+     * @throws IOException si ocurre un error de lectura.
      */
     private static void registrarUsuario() throws IOException {
         System.out.println("\nTipo de usuario:");
@@ -144,7 +168,7 @@ public class Main {
     }
 
     /**
-     * Lista los usuarios registrados.
+     * Muestra la lista los usuarios registrados.
      */
     private static void listarUsuarios() {
         ArrayList<Usuario> usuarios = sistema.getUsuarios();
@@ -160,7 +184,7 @@ public class Main {
     }
 
     /**
-     * Registra un nuevo objeto.
+     * Registra un nuevo objeto solicitando los datos necesarios.
      */
     private static void registrarObjeto() throws IOException {
         String nombre = leerTexto("Nombre del objeto: ");
@@ -189,6 +213,8 @@ public class Main {
 
     /**
      * Crea una nueva subasta.
+     *
+     * @throws IOException si ocurre un error de lectura.
      */
     private static void crearSubasta() throws IOException {
         if (!sistema.hayUsuarios() || !sistema.hayObjetos()) {
@@ -245,6 +271,8 @@ public class Main {
 
     /**
      * Crea una nueva oferta.
+     *
+     * @throws IOException si ocurre un error de lectura.
      */
     private static void crearOferta() throws IOException {
         if (!sistema.hayUsuarios() || !sistema.haySubastas()) {
@@ -291,7 +319,9 @@ public class Main {
     }
 
     /**
-     * Ejecuta el inicio de sesión.
+     * Ejecuta el inicio de sesión. Aca se solicita el correo y la contrasena
+     *
+     * @throws IOException si ocurre un error de lectura.
      */
     private static void iniciarSesion() throws IOException {
         String correo = leerTexto("Correo: ");
@@ -319,10 +349,52 @@ public class Main {
 
     /**
      * Lee un texto desde consola.
+     *
+     * @param mensaje texto mostrado al usuario.
+     * @return valor ingresado por el usuario.
+     * @throws IOException si ocurre un error de lectura.
      */
     private static String leerTexto(String mensaje) throws IOException {
         System.out.print(mensaje);
         return br.readLine();
+    }
+
+
+    /**
+     * Solicita los datos para modificar un usuario registrado.
+     *
+     * @throws IOException si ocurre un error al leer datos desde consola.
+     */
+    private static void modificarUsuario() throws IOException {
+        String id = leerTexto("Identificacion del usuario: ");
+        String nuevoNombre = leerTexto("Nuevo nombre completo: ");
+        String nuevoCorreo = leerTexto("Nuevo correo electronico: ");
+
+        System.out.println(sistema.modificarUsuario(id, nuevoNombre, nuevoCorreo));
+    }
+
+    /**
+     * Solicita una subasta y la marca como cerrada.
+     *
+     * @throws IOException si ocurre un error al leer datos desde consola.
+     */
+    private static void cerrarSubasta() throws IOException {
+        listarSubastas();
+
+        int indice = Integer.parseInt(leerTexto("Seleccione el numero de subasta: "));
+
+        System.out.println(sistema.cerrarSubasta(indice));
+    }
+
+    /**
+     * Solicita un usuario y muestra las subastas relacionadas con él.
+     *
+     * @throws IOException si ocurre un error al leer datos desde consola.
+     */
+    private static void listarMisSubastas() throws IOException {
+        String idUsuario = leerTexto("Identificacion del usuario: ");
+
+        System.out.println(sistema.listarMisSubastas(idUsuario));
     }
 }
 
